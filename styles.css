@@ -1,0 +1,28 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body{
+    display: flex;
+    flex-direction: column  ;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+#userDetails form{
+    font-size: x-large;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#userDetails form input,#userDetails form select,#userDetails form button{
+    font-size: x-large;
+    outline: none;
+}
+
+#quizBoard{
+    width: 80%;
+    padding: 5%;
+}
