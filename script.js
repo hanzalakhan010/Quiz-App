@@ -93,9 +93,16 @@ function userDetailSubmit(event) {
   user["username"] = event.target.uname.value;
   user["name"] = event.target.name.value;
   currentQuiz = event.target.quizSelect.value;
-  document.getElementById("userDetails").style.display = "none";
-  document.getElementById("quizBoard").style.display = "block";
-  loadNextQuestion()
+  if(user.username && user.name && currentQuiz){
+      document.getElementById("userDetails").style.display = "none";
+      document.getElementById("quizBoard").style.display = "block";
+      document.getElementById('quizTitle').textContent = currentQuiz
+      loadNextQuestion()
+  }
+  else{
+    alert("Please fill the form first")
+  }
+
 }
 
 document.getElementById("choicesForm").addEventListener("submit", (event) => {
