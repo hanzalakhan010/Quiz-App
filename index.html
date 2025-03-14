@@ -25,6 +25,12 @@
           <option value="Biology">Biology</option>
           <option value="History">History</option>
         </select>
+        <select id="difficulty" name = 'difficulty'>
+          <option value="10">Easy</option>
+          <option value="8">Medium</option>
+          <option value="5">Hard</option>
+          <option value="4">Challenge</option>
+        </select>
         <button type="submit">Start Quiz</button>
       </form>
     </div>
@@ -39,6 +45,10 @@
         <div id="choices"></div>
         <button id="nextQueBtn" type="submit">Next</button>
       </form>
+    </div>
+    <div id="scoreBoard" style="display: none">
+      <p id="quizName"></p>
+      <p id="quizScore"></p>
     </div>
   </body>
 </html>

@@ -4,8 +4,14 @@ var currentQuestionNo = 0;
 var host = "http://localhost:3000";
 var maxQuestion = 10;
 var score = 0;
-var difficulty = ''
+var difficulty = 1 * 60 * 1000;
 
+function submitQuiz() {
+  document.getElementById("quizBoard").style.display = "none";
+  document.getElementById("scoreBoard").style.display = "block";
+  document.getElementById("quizName").innerText = `${currentQuiz} quiz`;
+  document.getElementById("quizScore").innerText = `Score ${score}`;
+}
 function checkQuestion(userAns, correctAns) {
   if (typeof correctAns == "object") {
     for (let ans of userAns) {
@@ -14,6 +20,7 @@ function checkQuestion(userAns, correctAns) {
       let checked = ans.checked;
       if (option["isCorrect"] == checked && checked) {
         score += 1;
+        break
       }
     }
   } else {
@@ -85,26 +92,27 @@ function loadNextQuestion() {
     currentQuestionNo += 1;
     renderQuestion();
   } else {
+    document.getElementById("nextQueBtn").textContent = "Submit";
+    document.getElementById("nextQueBtn").style.backgroundColor = "chartreuse";
+    document.getElementById("nextQueBtn").onclick = () => {
+      submitQuiz();
+    };
   }
 }
 
 function startTImer() {
-    console.log('debug')
+  console.log("debug");
+  let timerSeconds = difficulty;
   let timer = document.getElementById("timer");
-  const finishTimeMinute = Number(new Date().getMinutes())
-  const finishTimeseconds = Number(new Date().getSeconds());
-
   let timing = setInterval(() => {
-    let currentDate = new Date();
-    let deltaMinute = finishTimeMinute - Number(currentDate.getMinutes());
-    let deltaSeconds = Math.abs(
-      60 - (Number(currentDate.getSeconds()) - finishTimeseconds)
-    );
-    if (deltaMinute == 0 && deltaSeconds == 0) {
-      console.log(deltaMinute, deltaSeconds);
-      clearInterval(timing);
+    let deltaMinute = Math.floor(timerSeconds / (60 * 1000));
+    let deltaSeconds = Math.round((timerSeconds % (60 * 1000)) / 1000);
+    if (timerSeconds <= 0) {
+      submitQuiz();
+      clearInterval(timer);
     }
     timer.innerHTML = `${deltaMinute} : ${deltaSeconds}`;
+    timerSeconds -= 1000;
   }, 1000);
 }
 
@@ -113,6 +121,7 @@ function userDetailSubmit(event) {
   user["username"] = event.target.uname.value;
   user["name"] = event.target.name.value;
   currentQuiz = event.target.quizSelect.value;
+  difficulty = Number(event.target.difficulty.value) * 60 * 1000;
   if (user.username && user.name && currentQuiz) {
     document.getElementById("userDetails").style.display = "none";
     document.getElementById("quizBoard").style.display = "block";
