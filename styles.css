@@ -41,7 +41,7 @@ body {
   position: absolute;
   bottom: 2%;
   right: 2%;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
@@ -57,4 +57,7 @@ body {
 #quizBoard p,
 #choicesForm button {
   font-size: x-large;
+}
+#scoreBoard p{
+  font-size: large;
 }

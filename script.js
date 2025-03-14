@@ -9,8 +9,15 @@ var difficulty = 1 * 60 * 1000;
 function submitQuiz() {
   document.getElementById("quizBoard").style.display = "none";
   document.getElementById("scoreBoard").style.display = "block";
+  document.getElementById('uname').innerText = user.username
   document.getElementById("quizName").innerText = `${currentQuiz} quiz`;
   document.getElementById("quizScore").innerText = `Score ${score}`;
+  if (score>7){
+    document.getElementById('advice').innerText= `Good job ${user.name}`
+  }
+  else{
+    document.getElementById("advice").innerText = 'You can do better'
+  }
 }
 function checkQuestion(userAns, correctAns) {
   if (typeof correctAns == "object") {
@@ -116,7 +123,7 @@ function startTImer() {
   }, 1000);
 }
 
-function userDetailSubmit(event) {
+function selectQuiz(event) {
   event.preventDefault();
   user["username"] = event.target.uname.value;
   user["name"] = event.target.name.value;
@@ -140,5 +147,7 @@ document
   .querySelector("#userDetails form")
   .addEventListener("submit", (event) => {
     event.preventDefault();
-    userDetailSubmit(event);
+    selectQuiz(event);
   });
+
+document.getElementById('playAgainBtn').onclick = ()=>window.location.reload()

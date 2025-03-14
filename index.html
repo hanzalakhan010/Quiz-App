@@ -11,11 +11,8 @@
     <div id="userDetails">
       <h2><b>User Details</b></h2>
       <form>
-        <!-- <label for="uname">Username</label> -->
         <input type="Username" id="uname" name="uname" placeholder="Username" />
-        <!-- <label for="name">Name</label> -->
         <input type="Name" id="name" name="name" placeholder="Name" />
-        <!-- <label for="quizSelect">Select Quiz Subject</label> -->
         <select id="quizSelect" name="quizSelect">
           <option value="" disabled selected>Select Subject</option>
           <option value="Computer-Science">Computer-Science</option>
@@ -25,7 +22,7 @@
           <option value="Biology">Biology</option>
           <option value="History">History</option>
         </select>
-        <select id="difficulty" name = 'difficulty'>
+        <select id="difficulty" name="difficulty">
           <option value="10">Easy</option>
           <option value="8">Medium</option>
           <option value="5">Hard</option>
@@ -47,8 +44,11 @@
       </form>
     </div>
     <div id="scoreBoard" style="display: none">
+      <p id = 'uname'></p>
       <p id="quizName"></p>
       <p id="quizScore"></p>
+      <p id="advice"></p>
+      <button id = 'playAgainBtn'>Play Again</button>
     </div>
   </body>
 </html>
