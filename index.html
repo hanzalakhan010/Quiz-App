@@ -8,7 +8,7 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <div id="userDetails" >
+    <div id="userDetails">
       <h2><b>User Details</b></h2>
       <form>
         <!-- <label for="uname">Username</label> -->
@@ -28,14 +28,17 @@
         <button type="submit">Start Quiz</button>
       </form>
     </div>
-    <div id = 'quizBoard' style="display: none;">
-        <h2 id = 'quizTitle'></h2>
-        <p id = 'currentQuestionNo'></p>
-        <p id = 'currentQuestion'></p>
-        <form id = 'choicesForm'>
-            <div id = 'choices'></div>
-            <button id = 'nextQueBtn' type="submit">Next</button>
-        </form>
+    <div id="quizBoard" style="display: none">
+      <div>
+        <span id="quizTitle"></span>
+        <span id="timer"></span>
+      </div>
+      <p id="currentQuestionNo"></p>
+      <p id="currentQuestion"></p>
+      <form id="choicesForm">
+        <div id="choices"></div>
+        <button id="nextQueBtn" type="submit">Next</button>
+      </form>
     </div>
   </body>
 </html>

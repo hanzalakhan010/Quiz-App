@@ -8,9 +8,11 @@ body{
     align-items: center;
     justify-content: center;
     padding: 10px;
+    background-color: rgb(159, 70, 241);
 }
 
 #userDetails form{
+
     font-size: x-large;
     width: 100%;
     display: flex;
@@ -25,4 +27,12 @@ body{
 #quizBoard{
     width: 80%;
     padding: 5%;
+    background-color: rgb(82, 200, 204);
+}
+#choices{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#quizTitle{
+    font-size: x-large;
 }

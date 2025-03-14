@@ -4,9 +4,9 @@ var currentQuestionNo = 0;
 var host = "http://localhost:3000";
 var maxQuestion = 10;
 var score = 0;
+var difficulty = ''
 
 function checkQuestion(userAns, correctAns) {
-  console.log(userAns, correctAns);
   if (typeof correctAns == "object") {
     for (let ans of userAns) {
       let ans_text = ans.id;
@@ -23,7 +23,7 @@ function checkQuestion(userAns, correctAns) {
   }
 }
 
-async function renderQuestion(params) {
+async function renderQuestion() {
   let res = await fetch(`${host}/${currentQuiz}/${currentQuestionNo}`);
   let data = await res.json();
   if (data) {
@@ -88,21 +88,40 @@ function loadNextQuestion() {
   }
 }
 
+function startTImer() {
+    console.log('debug')
+  let timer = document.getElementById("timer");
+  const finishTimeMinute = Number(new Date().getMinutes())
+  const finishTimeseconds = Number(new Date().getSeconds());
+
+  let timing = setInterval(() => {
+    let currentDate = new Date();
+    let deltaMinute = finishTimeMinute - Number(currentDate.getMinutes());
+    let deltaSeconds = Math.abs(
+      60 - (Number(currentDate.getSeconds()) - finishTimeseconds)
+    );
+    if (deltaMinute == 0 && deltaSeconds == 0) {
+      console.log(deltaMinute, deltaSeconds);
+      clearInterval(timing);
+    }
+    timer.innerHTML = `${deltaMinute} : ${deltaSeconds}`;
+  }, 1000);
+}
+
 function userDetailSubmit(event) {
   event.preventDefault();
   user["username"] = event.target.uname.value;
   user["name"] = event.target.name.value;
   currentQuiz = event.target.quizSelect.value;
-  if(user.username && user.name && currentQuiz){
-      document.getElementById("userDetails").style.display = "none";
-      document.getElementById("quizBoard").style.display = "block";
-      document.getElementById('quizTitle').textContent = currentQuiz
-      loadNextQuestion()
+  if (user.username && user.name && currentQuiz) {
+    document.getElementById("userDetails").style.display = "none";
+    document.getElementById("quizBoard").style.display = "block";
+    document.getElementById("quizTitle").textContent = currentQuiz;
+    startTImer();
+    loadNextQuestion();
+  } else {
+    alert("Please fill the form first");
   }
-  else{
-    alert("Please fill the form first")
-  }
-
 }
 
 document.getElementById("choicesForm").addEventListener("submit", (event) => {
@@ -111,7 +130,6 @@ document.getElementById("choicesForm").addEventListener("submit", (event) => {
 document
   .querySelector("#userDetails form")
   .addEventListener("submit", (event) => {
-        event.preventDefault()
-      userDetailSubmit(event)
-    }
-);
+    event.preventDefault();
+    userDetailSubmit(event);
+  });
