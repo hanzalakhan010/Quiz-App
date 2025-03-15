@@ -1,3 +1,4 @@
+import {fetchData} from 'script2.js'
 var user = {};
 var currentQuiz = "";
 var currentQuestionNo = 0;
@@ -5,6 +6,15 @@ var host = "http://localhost:3000";
 var maxQuestion = 10;
 var score = 0;
 var difficulty = 1 * 60 * 1000;
+async function fetchData(quiz,id){
+  let response = await fetch('data/db.json')
+  let data = await response.json()
+  // console.log(data)
+  let quizQuestions = data?.[quiz]
+  let question = quizQuestions.find((ele)=>ele.id == id)
+  // console.log(quizQuestions)
+  return question
+}
 
 function submitQuiz() {
   document.getElementById("quizBoard").style.display = "none";
