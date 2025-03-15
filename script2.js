@@ -7,5 +7,5 @@ async function fetchData(quiz,id){
     // console.log(quizQuestions)
     return question
 }
-fetchData('Physics',1)
-.then((msg)=>console.log(msg))
+// fetchData('Physics',1)
+// .then((msg)=>console.log(msg))

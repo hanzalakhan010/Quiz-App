@@ -1,4 +1,3 @@
-import {fetchData} from 'script2.js'
 var user = {};
 var currentQuiz = "";
 var currentQuestionNo = 0;
@@ -6,27 +5,17 @@ var host = "http://localhost:3000";
 var maxQuestion = 10;
 var score = 0;
 var difficulty = 1 * 60 * 1000;
-async function fetchData(quiz,id){
-  let response = await fetch('data/db.json')
-  let data = await response.json()
-  // console.log(data)
-  let quizQuestions = data?.[quiz]
-  let question = quizQuestions.find((ele)=>ele.id == id)
-  // console.log(quizQuestions)
-  return question
-}
 
 function submitQuiz() {
   document.getElementById("quizBoard").style.display = "none";
   document.getElementById("scoreBoard").style.display = "block";
-  document.getElementById('uname').innerText = user.username
+  document.getElementById("uname").innerText = user.username;
   document.getElementById("quizName").innerText = `${currentQuiz} quiz`;
   document.getElementById("quizScore").innerText = `Score ${score}`;
-  if (score>7){
-    document.getElementById('advice').innerText= `Good job ${user.name}`
-  }
-  else{
-    document.getElementById("advice").innerText = 'You can do better'
+  if (score > 7) {
+    document.getElementById("advice").innerText = `Good job ${user.name}`;
+  } else {
+    document.getElementById("advice").innerText = "You can do better";
   }
 }
 function checkQuestion(userAns, correctAns) {
@@ -37,7 +26,7 @@ function checkQuestion(userAns, correctAns) {
       let checked = ans.checked;
       if (option["isCorrect"] == checked && checked) {
         score += 1;
-        break
+        break;
       }
     }
   } else {
@@ -48,56 +37,62 @@ function checkQuestion(userAns, correctAns) {
 }
 
 async function renderQuestion() {
-  let res = await fetch(`${host}/${currentQuiz}/${currentQuestionNo}`);
-  let data = await res.json();
-  if (data) {
-    document.getElementById(
-      "currentQuestionNo"
-    ).innerText = `Que # ${currentQuestionNo}`;
-    document.getElementById("currentQuestion").innerText = data.question;
-    document.getElementById("choices").innerHTML = "";
-    switch (data.type) {
-      case "text": {
-        document.getElementById(
-          "choices"
-        ).innerHTML = `<input class = 'ans' id = 'ans' type = 'text'/>`;
-        document.getElementById("nextQueBtn").onclick = () => {
-          userAns = document.getElementById("ans").value;
-          checkQuestion(userAns, data.correctAnswer);
-          loadNextQuestion();
-        };
-        break;
-      }
-      case "list":
-      case "radio": {
-        data.options.map((option) => {
-          document.getElementById("choices").innerHTML += `
-            <input  id = '${option.text}' name = 'ans' type = 'radio' />
-            <label for = '${option.text}' name = 'ans'>${option.text}</label>
-            <br>
-            `;
-        });
-        document.getElementById("nextQueBtn").onclick = () => {
-          userAns = [...document.querySelectorAll("#choices input")];
-          checkQuestion(userAns, data.options);
-          loadNextQuestion();
-        };
-        break;
-      }
-      case "checkbox": {
-        data.options.map((option) => {
-          document.getElementById("choices").innerHTML += `
-              <input  id = '${option.text}' name = 'ans' type = 'checkbox' />
+  try {
+    let res = await fetch(`${host}/${currentQuiz}/${currentQuestionNo}`);
+    var data = await res.json();
+  } catch {
+    // fetchData().then((msg) => console.log(msg));
+    var data = await fetchData(currentQuiz, currentQuestionNo);
+  } finally {
+    if (data) {
+      document.getElementById(
+        "currentQuestionNo"
+      ).innerText = `Que # ${currentQuestionNo}`;
+      document.getElementById("currentQuestion").innerText = data.question;
+      document.getElementById("choices").innerHTML = "";
+      switch (data.type) {
+        case "text": {
+          document.getElementById(
+            "choices"
+          ).innerHTML = `<input class = 'ans' id = 'ans' type = 'text'/>`;
+          document.getElementById("nextQueBtn").onclick = () => {
+            userAns = document.getElementById("ans").value;
+            checkQuestion(userAns, data.correctAnswer);
+            loadNextQuestion();
+          };
+          break;
+        }
+        case "list":
+        case "radio": {
+          data.options.map((option) => {
+            document.getElementById("choices").innerHTML += `
+              <input  id = '${option.text}' name = 'ans' type = 'radio' />
               <label for = '${option.text}' name = 'ans'>${option.text}</label>
               <br>
               `;
-        });
-        document.getElementById("nextQueBtn").onclick = () => {
-          userAns = [...document.querySelectorAll("#choices input")];
-          checkQuestion(userAns, data.options);
-          loadNextQuestion();
-        };
-        break;
+          });
+          document.getElementById("nextQueBtn").onclick = () => {
+            userAns = [...document.querySelectorAll("#choices input")];
+            checkQuestion(userAns, data.options);
+            loadNextQuestion();
+          };
+          break;
+        }
+        case "checkbox": {
+          data.options.map((option) => {
+            document.getElementById("choices").innerHTML += `
+                <input  id = '${option.text}' name = 'ans' type = 'checkbox' />
+                <label for = '${option.text}' name = 'ans'>${option.text}</label>
+                <br>
+                `;
+          });
+          document.getElementById("nextQueBtn").onclick = () => {
+            userAns = [...document.querySelectorAll("#choices input")];
+            checkQuestion(userAns, data.options);
+            loadNextQuestion();
+          };
+          break;
+        }
       }
     }
   }
@@ -160,4 +155,5 @@ document
     selectQuiz(event);
   });
 
-document.getElementById('playAgainBtn').onclick = ()=>window.location.reload()
+document.getElementById("playAgainBtn").onclick = () =>
+  window.location.reload();
